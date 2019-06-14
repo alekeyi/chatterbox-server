@@ -1,3 +1,7 @@
+const fs = require('fs')
+const messages = require('./classes/messages.js')
+
+
 /*************************************************************
 
 You should implement your request handler function in this file.
@@ -28,9 +32,7 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
-
   // The outgoing status.
-  var statusCode = 200;
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
@@ -39,11 +41,39 @@ var requestHandler = function(request, response) {
   //
   // You will need to change this if you are sending something
   // other than plain text, like JSON or HTML.
-  headers['Content-Type'] = 'text/plain';
+  headers['Content-Type'] = 'application/json';
+  let statusCode;
+  if (request.method === 'OPTIONS') {
+    statusCode = 200
+  }
+  
+  if (request.url !== '/classes/messages') {
+    statusCode = 404
+    
+
+  }
+  if (request.method === 'GET' && request.url === '/classes/messages') {
+    statusCode = 200;
+
+  }
+
+  if (request.method === 'POST' && request.url === '/classes/messages') {
+    let data = [];
+    statusCode = 201;
+    request.on('data', chunk => {
+      data.push(chunk)
+    })
+    request.on('end', () => {
+      messages.results.push(JSON.parse(data));
+    })
+  }
+
+  response.writeHead(statusCode, headers);
+  console.log('The status code if no conditionals is :' + statusCode)
+  response.end(JSON.stringify(messages));
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
-  response.writeHead(statusCode, headers);
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
@@ -52,7 +82,7 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  response.end('Hello, World!');
+  // response.end('Hello, World!');
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
@@ -70,4 +100,9 @@ var defaultCorsHeaders = {
   'access-control-allow-headers': 'content-type, accept',
   'access-control-max-age': 10 // Seconds.
 };
+
+module.exports = {
+  requestHandler: requestHandler,
+  defaultCorsHeaders: defaultCorsHeaders
+}
 
