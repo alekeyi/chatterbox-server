@@ -1,5 +1,5 @@
-const fs = require('fs')
-const messages = require('./classes/messages.js')
+const fs = require('fs');
+const messages = require('./classes/messages.js');
 
 
 /*************************************************************
@@ -15,7 +15,12 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-
+var defaultCorsHeaders = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'access-control-allow-headers': 'content-type, accept',
+  'access-control-max-age': 10 // Seconds.
+};
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
@@ -45,11 +50,11 @@ var requestHandler = function(request, response) {
   let statusCode;
 
   if (request.method === 'OPTIONS') {
-    statusCode = 200
+    statusCode = 200;
   }
 
   if (request.url !== '/classes/messages') {
-    statusCode = 404
+    statusCode = 404;
   }
 
   if (request.method === 'GET' && request.url === '/classes/messages') {
@@ -60,11 +65,11 @@ var requestHandler = function(request, response) {
     let data = [];
     statusCode = 201;
     request.on('data', chunk => {
-      data.push(chunk)
-    })
+      data.push(chunk);
+    });
     request.on('end', () => {
       messages.results.push(JSON.parse(data));
-    })
+    });
   }
   response.writeHead(statusCode, headers);
   response.end(JSON.stringify(messages));
@@ -91,15 +96,10 @@ var requestHandler = function(request, response) {
 //
 // Another way to get around this restriction is to serve you chat
 // client from this domain by setting up static file serving.
-var defaultCorsHeaders = {
-  'access-control-allow-origin': '*',
-  'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'access-control-allow-headers': 'content-type, accept',
-  'access-control-max-age': 10 // Seconds.
-};
+
 
 module.exports = {
   requestHandler: requestHandler,
   defaultCorsHeaders: defaultCorsHeaders
-}
+};
 
