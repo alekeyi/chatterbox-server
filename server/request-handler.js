@@ -43,18 +43,17 @@ var requestHandler = function(request, response) {
   // other than plain text, like JSON or HTML.
   headers['Content-Type'] = 'application/json';
   let statusCode;
+
   if (request.method === 'OPTIONS') {
     statusCode = 200
   }
-  
+
   if (request.url !== '/classes/messages') {
     statusCode = 404
-    
-
   }
+
   if (request.method === 'GET' && request.url === '/classes/messages') {
     statusCode = 200;
-
   }
 
   if (request.method === 'POST' && request.url === '/classes/messages') {
@@ -67,9 +66,7 @@ var requestHandler = function(request, response) {
       messages.results.push(JSON.parse(data));
     })
   }
-
   response.writeHead(statusCode, headers);
-  console.log('The status code if no conditionals is :' + statusCode)
   response.end(JSON.stringify(messages));
 
   // .writeHead() writes to the request line and headers of the response,
