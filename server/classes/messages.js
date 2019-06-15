@@ -1,3 +1,3 @@
 module.exports = {
-  results: []
+  results: [{username: "ME", text: "YOU"}]
 };

@@ -48,6 +48,42 @@ var requestHandler = function(request, response) {
   // other than plain text, like JSON or HTML.
   headers['Content-Type'] = 'application/json';
   let statusCode;
+  
+
+  if (request.method === 'GET') {
+    if (request.url === '/index.html') {
+      let fileurl = '../index.html'
+      statusCode = 200;
+      headers['Content-Type'] = 'text/html';
+      response.writeHead(statusCode, headers);
+      fs.readFile(fileurl, (err,fileContent) =>
+      {
+        response.end(fileContent);
+      });
+    }
+    if (request.url === '/classes/messages') {
+      statusCode = 200;
+      response.writeHead(statusCode, headers);
+      response.end(JSON.stringify(messages));
+    }
+
+    else {
+      statusCode = 200;
+      let fileurl = request.url;
+      if(fileurl.includes(".js")){
+        headers['Content-Type'] = 'text/javascript';
+      }else if(fileurl.includes(".css")){
+        headers['Content-Type'] = 'text/css';
+      }else if(fileurl.includes(".gif")){
+        headers['Content-Type'] = 'image/gif';
+      }
+      response.writeHead(statusCode, headers);
+      fs.readFile(fileurl, (err,fileContent) =>
+      {
+        response.end(fileContent);
+      });
+    }
+  }
 
   if (request.method === 'OPTIONS') {
     statusCode = 200;
@@ -57,9 +93,6 @@ var requestHandler = function(request, response) {
     statusCode = 404;
   }
 
-  if (request.method === 'GET' && request.url === '/classes/messages') {
-    statusCode = 200;
-  }
 
   if (request.method === 'POST' && request.url === '/classes/messages') {
     let data = [];
@@ -72,8 +105,8 @@ var requestHandler = function(request, response) {
     });
   }
   response.writeHead(statusCode, headers);
-  response.end(JSON.stringify(messages));
-
+  //response.end(JSON.stringify(messages));
+  setTimeout(() => response.end('Got to the end'), 5000)
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
 

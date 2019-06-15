@@ -1,0 +1,137 @@
+body {
+    background: /*#eee*/ linear-gradient(25deg, #5EF726, #01CCFE);
+    text-align: center;
+    padding: 0 25px;
+    font-family: arial, sans-serif;
+}
+
+#main, /*#chats,*/ .chats_container {
+    width: 500px;
+    margin: auto;
+    text-align: left;
+    background: white;
+    padding: 50px 60px;
+    border: solid #ddd;
+    border-width: 0 1px 1px 1px;
+}
+
+
+#main h1 {
+    margin-top: 0;
+    font-size: 35px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+#main h1 span {
+    font-style:italic;
+}
+
+#main ul {
+    padding-left: 20px;
+}
+
+#main .error {
+    border: 1px solid red;
+    background: #FDEFF0;
+    padding: 20px;
+}
+
+#main .success {
+    margin-top: 25px;
+}
+
+#main .success code {
+    font-size: 12px;
+    color: green;
+    line-height: 13px;
+}
+
+form {
+    padding: 20px;
+    padding-left: 0;
+    margin-bottom: 20px;
+}
+
+form input[type=text] {
+    margin-right: 10px;
+    width: 70%;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.chats {
+    padding: 2%;
+    background: #eee;
+}
+
+.chat {
+    overflow: hidden;
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #eee;
+}
+
+.chat .username {
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.chat .username:hover {
+    font-weight: 600;
+    color: #3665FE;
+}
+
+.chat:hover {
+    background-color: #ddd;
+}
+
+
+
+.spinner {
+    overflow: hidden;
+    float: right;
+    height: 46px;
+    margin-bottom: 5px;
+}
+
+.spinner img {
+    padding: 10px;
+}
+
+.friend {
+    color: #fff;
+    background-color: #0090da;
+}
+
+select, option {
+    width: 70%;
+    overflow: hidden;
+}
+
+.tabs {
+    padding:0;
+    background: #eee;
+    display: flex;
+}
+
+.tab {
+    padding: 2%;
+    background: white;
+    width: 25%;
+    /*width: 3rem;*/
+    border: 1px solid grey;
+    height: 2rem;
+    overflow: hidden;
+}
+
+.tab:hover {
+    box-shadow: 1px 3px 3px 0 rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.tab.selected {
+    background-color: #eee;
+    border: none;
+    box-shadow:  1px -2px 3px 0 rgba(0, 0, 0, 0.15);
+}
